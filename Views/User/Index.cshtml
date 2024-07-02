@@ -1,0 +1,41 @@
+@model IEnumerable<User>?
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<form asp-controller="User" asp-action="Create" method="post">
+  <div class="form-group">
+    <label for="descriptionName" style="margin-bottom: 10px;">Input name of the user here: </label>
+    <input type="text" class="form-control w-25" id="descriptionName" name="Name" placeholder="Enter name" style="margin-bottom: 10px;">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@if(Model == null || Model.Any() == false) {
+    <div class="alert alert-primary" role="alert">
+        There are no users found!
+    </div>
+}
+else {
+    foreach (var user in Model)
+    {
+        <div class="card my-3 shadow">
+            <div><a asp-controller="User" asp-action="Delete" asp-route-id=@user.Id>Delete user</a></div>
+            <div class="card-body bg-primary text-white">
+                <span style="font-size: 20px; font-weight: bold; text-decoration: none">@user.Name</span>
+            </div>
+            <div>
+                <form asp-controller="User" asp-action="Update" method="get">
+                    <div class="form-group">
+                        <input type="hidden" name="Id" value=@user.Id style="display: none;">
+                        <label for="descriptionName" style="margin-bottom: 10px;">Input new name of the user here: </label>
+                        <input type="text" class="form-control w-25" id="descriptionName" name="Name" placeholder="Enter name" style="margin-bottom: 10px;">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+        <hr/>
+    }
+}
